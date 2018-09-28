@@ -7,6 +7,13 @@
     </div>
 
     <div>
+      <label for="category">Category</label>
+      <select id="category" @change="changeCategory">
+        <option v-for="category in allCategory" :key="category.id">{{category.title}}</option>
+      </select>
+    </div>
+
+    <div>
       <label for="date">Date</label>
       <br/>
       <input id="date" type='date' class="textInput" name='date' v-model='date'/>
@@ -19,6 +26,7 @@
 <script>
   import { ADD_RECORD } from "../graphql/addRecord"
   import { ALL_RECORD_QUERY } from "../graphql/allRecord"
+  import { ALL_CATEGORY_QUERY } from "../graphql/allCategory"
 
 
   export default {
@@ -26,25 +34,33 @@
     data() {
       return {
         amount: "",
+        category: "",
         date: ""
       }
     },
     apollo: {
       allRecord: {
         query: ALL_RECORD_QUERY
+      },
+      allCategory: {
+        query: ALL_CATEGORY_QUERY
       }
     },
     methods: {
+      changeCategory(event) {
+        this.category = event.target.value;
+      },
       createRecord() {
-        const type = this.type;
-        const amount = this.amount;
         const date = this.date ? new Date(this.date) : new Date();
+        let category = this.category;
+        if (!category && this.allCategory.length > 0) category = this.allCategory[0].title;
 
         this.$apollo.mutate({
           mutation: ADD_RECORD,
           variables: {
-            type,
-            amount,
+            type: this.type,
+            amount: this.amount,
+            category,
             date: date.toISOString()
           },
           update: (store, { data: { createRecord } }) => {
@@ -59,7 +75,7 @@
           console.error(error)
         });
 
-        // this.$router.push({ path: "/" })
+        this.$router.push({ path: "/" })
       }
     }
   }

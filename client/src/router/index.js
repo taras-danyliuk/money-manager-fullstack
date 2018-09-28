@@ -18,13 +18,13 @@ export default new Router({
     },
     {
       path: "/plus",
-      name: "AddRecord",
+      name: "AddRecordIncome",
       component: AddRecord,
       props: { type: "income" }
     },
     {
       path: "/minus",
-      name: "AddRecord",
+      name: "AddRecordExpense",
       component: AddRecord,
       props: { type: "expense" }
     },

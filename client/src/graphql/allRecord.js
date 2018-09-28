@@ -7,6 +7,8 @@ export const ALL_RECORD_QUERY = gql`
         id
         type
         amount
+        category
+        date
     }
   }
-`
+`;

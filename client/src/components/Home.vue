@@ -19,17 +19,21 @@
       <!--<p>10000</p>-->
     <!--</div>-->
 
+    <div>
+      <span>{{totalIncome}}</span>
+      <span>{{totalExpense}}</span>
+
+      <p>{{JSON.stringify(totalExpenseByCategories)}}</p>
+    </div>
+
 
     <div class="history">
+      <div class="history-row"  v-for="record in allRecordOrdered" :key="record.id">
+        <span>{{record.category}}</span>
 
-      <p
-        class="history-row"
-        v-bind:class="{ income: record.type === 'income', expense: record.type === 'expense'}"
-        v-for="record in allRecord"
-        :key="record.id"
-      >
-        {{record.amount}}
-      </p>
+        <span v-bind:class="{ income: record.type === 'income', expense: record.type === 'expense'}">{{record.amount}}</span>
+      </div>
+
     </div>
 
     <!--<div v-for='post in allPost' :key='post.id'>-->
@@ -42,7 +46,6 @@
 </template>
 
 <script>
-
   import { ALL_CATEGORY_QUERY } from "../graphql/allCategory"
   import { ALL_RECORD_QUERY } from "../graphql/allRecord"
 
@@ -55,6 +58,42 @@
         allPost: [],
         allCategory: [],
         allRecord: []
+      }
+    },
+    computed: {
+      allRecordOrdered: function () {
+        const copy = this.allRecord.slice();
+
+        return copy.sort(function (a, b) {
+          return (a.date > b.date) ? -1 : ((a.date < b.date) ? 1 : 0);
+        });
+      },
+      totalIncome: function () {
+        let total = 0;
+        const allIncome = this.allRecord.filter(record => record.type === "income");
+        allIncome.forEach(record => { total += +record.amount });
+
+        return total;
+      },
+      totalExpense: function () {
+        let total = 0;
+        const allExpense = this.allRecord.filter(record => record.type === "expense");
+        allExpense.forEach(record => { total += +record.amount });
+
+        return total;
+      },
+      totalExpenseByCategories: function () {
+        const totals = {};
+
+        const allExpense = this.allRecord.filter(record => record.type === "expense");
+        allExpense.forEach(record => {
+          const currentCategory = record.category;
+
+          if (currentCategory in totals) totals[currentCategory] += +record.amount;
+          else totals[currentCategory] = +record.amount;
+        });
+
+        return totals;
       }
     },
     apollo: {
@@ -90,7 +129,12 @@
     padding: 15px 20px
   }
   .history-row {
-    margin: 5px 0;
+    padding: 5px 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  .history-row-value {
+    margin: 0;
   }
   .income {
     color: greenyellow;
