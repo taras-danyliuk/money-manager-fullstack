@@ -19,6 +19,13 @@
       <!--<p>10000</p>-->
     <!--</div>-->
 
+    <donut-chart
+      :data="chartData"
+      :options="chartOptions"
+      :width="300"
+      :height="300"
+    />
+
     <div>
       <span>{{totalIncome}}</span>
       <span>{{totalExpense}}</span>
@@ -46,18 +53,34 @@
 </template>
 
 <script>
+  import DonutChart from "./DonutChart"
+
   import { ALL_CATEGORY_QUERY } from "../graphql/allCategory"
   import { ALL_RECORD_QUERY } from "../graphql/allRecord"
 
 
   export default {
     name: "home",
+    components: {
+      DonutChart
+    },
     data() {
       return {
         loading: 0,
         allPost: [],
         allCategory: [],
-        allRecord: []
+        allRecord: [],
+        chartData: {
+          labels: ["January", "February"],
+          datasets: [
+            {
+              label: "GitHub Commits",
+              backgroundColor: "#f87979",
+              data: [40, 20]
+            }
+          ]
+        },
+        chartOptions: { responsive: false, maintainAspectRatio: false }
       }
     },
     computed: {
