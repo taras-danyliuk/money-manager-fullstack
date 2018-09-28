@@ -1,6 +1,8 @@
-const Post = require('./post')
+const Category = require("./category");
+const Record = require("./record");
 
-let DB = {}
-DB.Post = Post
+let DB = {};
+DB.Category = Category;
+DB.Record = Record;
 
-module.exports = DB
+module.exports = DB;

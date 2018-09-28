@@ -1,29 +1,37 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Hello from '@/components/Hello'
-import Post from '@/components/Post'
-import AddPost from '@/components/AddPost'
+import Vue from "vue"
+import Router from "vue-router"
 
-Vue.use(Router)
+import Home from "@/components/Home"
+import AddCategory from "@/components/AddCategory"
+import AddRecord from "@/components/AddRecord"
+
+
+Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
+  mode: "history",
   routes: [
     {
-      path: '/',
-      name: 'Hello',
-      component: Hello
+      path: "/",
+      name: "Home",
+      component: Home
     },
     {
-      path: '/add',
-      name: 'AddPost',
-      component: AddPost
+      path: "/plus",
+      name: "AddRecord",
+      component: AddRecord,
+      props: { type: "income" }
     },
     {
-      path: '/:id',
-      name: 'Post',
-      component: Post,
-      props: true
+      path: "/minus",
+      name: "AddRecord",
+      component: AddRecord,
+      props: { type: "expense" }
+    },
+    {
+      path: "/add-category",
+      name: "AddCategory",
+      component: AddCategory
     }
   ]
 })

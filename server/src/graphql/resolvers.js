@@ -1,24 +1,30 @@
 module.exports = {
   Query: {
-    async allPost (root, args, {DB}) {
-      const posts = await DB.Post.find()
-      console.log(posts)
-      return posts
+    // Category
+    async allCategory(root, args, { DB }) {
+      const categories = await DB.Category.find();
+
+      return categories;
     },
-    async postById (root, args, {DB}) {
-      const {id} = args
-      const post = await DB.Post.findById({_id: id})
-      if (!post) {
-        throw new Error('post not found ')
-      }
-      return post
+
+    // Record
+    async allRecord(root, args, { DB }) {
+      const records = await DB.Record.find();
+      console.log(records, "records");
+
+      return records;
     }
   },
   Mutation: {
-    createPost (root, args, {DB}) {
-      const post = args
-      const newPost = new DB.Post(post)
-      return newPost.save()
+    createCategory(root, args, { DB }) {
+      const newCategory = new DB.Category(args);
+
+      return newCategory.save();
+    },
+    createRecord(root, args, { DB }) {
+      const newRecord = new DB.Record(args);
+
+      return newRecord.save();
     }
   }
-}
+};

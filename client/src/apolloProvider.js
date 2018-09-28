@@ -1,8 +1,9 @@
-import Vue from 'vue'
-import VueApollo from 'vue-apollo'
+import Vue from "vue"
+import VueApollo from "vue-apollo"
 
 // imporing apolloClient
-import {apolloClient} from './apolloClient'
+import { apolloClient } from "./apolloClient"
+
 
 Vue.use(VueApollo)
 
@@ -10,6 +11,6 @@ Vue.use(VueApollo)
 export const apolloProvider = new VueApollo({
   defaultClient: apolloClient,
   defaultOptions: {
-    $loadingKey: 'loading'
+    $loadingKey: "loading"
   }
 })

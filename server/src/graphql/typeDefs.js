@@ -1,15 +1,23 @@
 module.exports = `
-  type Post {
+  type Category {
     id: ID!
     title: String!
-    content: String!  
-    createdAt: String! 
+    amount: Float!
+    createdAt: String!
+  }
+  type Record {
+    id: ID!
+    type: String!
+    amount: Float!
+    date: String!
+    createdAt: String!
   }
   type Query {
-    allPost: [Post]!
-    postById(id: ID!): Post!
+    allCategory: [Category]!
+    allRecord: [Record]!
   }
   type Mutation {
-    createPost(title: String!, content: String!): Post
+    createCategory(title: String!, amount: Float!): Category
+    createRecord(type: String!, amount: Float!, date: String!): Record
   }
-`
+`;
