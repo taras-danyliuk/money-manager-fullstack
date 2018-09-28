@@ -30,7 +30,7 @@ app.use("/graphiql", graphiqlExpress({
 
 
 // connecting to a mongodb database with name of db fullstack
-mongoose.connect("mongodb://localhost:27017/fullstack", () => {
+mongoose.connect("mongodb://localhost:27017/money-manager", () => {
   console.log("connected to database successfully")
 });
 

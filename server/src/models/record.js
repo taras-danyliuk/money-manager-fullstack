@@ -10,6 +10,11 @@ const recordSchema = new mongoose.Schema({
     required: true,
     default: 0
   },
+  category: {
+    type: String,
+    required: true,
+    default: "Uncategorized"
+  },
   date: {
     type: String,
     required: true

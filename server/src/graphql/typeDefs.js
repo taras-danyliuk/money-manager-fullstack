@@ -9,6 +9,7 @@ module.exports = `
     id: ID!
     type: String!
     amount: Float!
+    category: String!
     date: String!
     createdAt: String!
   }
@@ -18,6 +19,6 @@ module.exports = `
   }
   type Mutation {
     createCategory(title: String!, amount: Float!): Category
-    createRecord(type: String!, amount: Float!, date: String!): Record
+    createRecord(type: String!, amount: Float!, category: String! date: String!): Record
   }
 `;
