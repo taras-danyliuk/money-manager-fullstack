@@ -20,8 +20,7 @@
     <!--</div>-->
 
     <donut-chart
-      :data="chartData"
-      :options="chartOptions"
+      :chartData="totalExpenseByCategories"
       :width="300"
       :height="300"
     />
@@ -29,8 +28,6 @@
     <div>
       <span>{{totalIncome}}</span>
       <span>{{totalExpense}}</span>
-
-      <p>{{JSON.stringify(totalExpenseByCategories)}}</p>
     </div>
 
 
@@ -42,13 +39,6 @@
       </div>
 
     </div>
-
-    <!--<div v-for='post in allPost' :key='post.id'>-->
-      <!--<router-link :to="post.id" exact>-->
-        <!--<h3>{{post.title}}</h3>-->
-      <!--</router-link>-->
-      <!--<p>{{post.content}}</p>-->
-    <!--</div>-->
   </div>
 </template>
 
@@ -69,18 +59,7 @@
         loading: 0,
         allPost: [],
         allCategory: [],
-        allRecord: [],
-        chartData: {
-          labels: ["January", "February"],
-          datasets: [
-            {
-              label: "GitHub Commits",
-              backgroundColor: "#f87979",
-              data: [40, 20]
-            }
-          ]
-        },
-        chartOptions: { responsive: false, maintainAspectRatio: false }
+        allRecord: []
       }
     },
     computed: {
@@ -116,7 +95,14 @@
           else totals[currentCategory] = +record.amount;
         });
 
-        return totals;
+        return {
+          labels: Object.keys(totals),
+          datasets: [{
+            backgroundColor: ["#f87979", "green", "cyan"],
+            borderWidth: 0,
+            data: Object.values(totals)
+          }]
+        }
       }
     },
     apollo: {
@@ -126,10 +112,6 @@
       allRecord: {
         query: ALL_RECORD_QUERY
       }
-    },
-    updated() {
-      console.log(this.allCategory, "category");
-      console.log(this.allRecord, "record");
     }
   }
 </script>

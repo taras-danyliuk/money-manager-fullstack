@@ -1,12 +1,16 @@
 <script>
-  import { Doughnut } from "vue-chartjs"
+  import { Doughnut, mixins } from "vue-chartjs"
+  const { reactiveProp } = mixins;
 
   export default {
     name: "donutChart",
     extends: Doughnut,
-    props: ["data", "options"],
+    mixins: [reactiveProp],
+    props: ["chartData"],
     mounted() {
-      this.renderChart(this.data, this.options)
+      const options = { responsive: false, maintainAspectRatio: false };
+
+      this.renderChart(this.chartData, options)
     }
   }
 </script>
