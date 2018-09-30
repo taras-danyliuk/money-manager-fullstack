@@ -8,7 +8,7 @@
     mixins: [reactiveProp],
     props: ["chartData"],
     mounted() {
-      const options = { responsive: false, maintainAspectRatio: false };
+      const options = { responsive: false, maintainAspectRatio: false, legend: { display: false } };
 
       this.renderChart(this.chartData, options)
     }

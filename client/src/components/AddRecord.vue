@@ -1,21 +1,19 @@
 <template>
-  <form @submit.prevent="createRecord">
-    <div>
+  <form class="add-form" @submit.prevent="createRecord">
+    <div class="form-row">
       <label for='amount'>Amount</label>
-      <br/>
       <input id="amount" type='number' class="textInput" name='amount' v-model='amount'/>
     </div>
 
-    <div>
+    <div class="form-row">
       <label for="category">Category</label>
-      <select id="category" @change="changeCategory">
+      <select class="select" id="category" @change="changeCategory">
         <option v-for="category in allCategory" :key="category.id">{{category.title}}</option>
       </select>
     </div>
 
-    <div>
+    <div class="form-row">
       <label for="date">Date</label>
-      <br/>
       <input id="date" type='date' class="textInput" name='date' v-model='date'/>
     </div>
 
@@ -82,21 +80,38 @@
 </script>
 
 <style>
+  .add-form {
+    max-width: 500px;
+    margin: 15% auto 0;
+    text-align: center;
+    color: #fff;
+  }
+  .form-row {
+    margin-bottom: 20px
+  }
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
   .btn {
     margin-top: 20px;
     height: 30px;
-    width: 100px;
-    color: white;
-    background-color: lightgreen;
+    width: 150px;
+    color: #000;
+    background-color: rgba(255,255,255,1);
+    border: none;
+    font-weight: bold;
+    border-radius: 4px;
   }
 
-  .textarea {
-    width: 400px;
-    height: 70px;
-  }
-
-  .textInput {
-    width: 400px;
-    height: 20px;
+  .textInput, .select {
+    width: 100%;
+    border: 1px solid rgba(255,255,255,.2);
+    background-color: transparent;
+    height: 30px;
+    color: #fff;
+    border-radius: 4px;
+    padding: 0 10px;
+    box-sizing: border-box;
   }
 </style>

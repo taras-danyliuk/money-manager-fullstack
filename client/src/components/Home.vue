@@ -6,36 +6,51 @@
 
     <div class="navigation">
       <router-link to="/plus">
-        <h3>Income</h3>
+        <h3 class="income">Income</h3>
       </router-link>
 
       <router-link to="/minus">
-        <h3>Expense</h3>
+        <h3 class="expense">Expense</h3>
       </router-link>
     </div>
 
+    <div class="charts-holder">
+      <div class="donut-holder">
+        <donut-chart
+          class="donut-block"
+          :chartData="totalIncomeByCategories"
+          :width="300"
+          :height="300"
+        />
 
-    <!--<div class="balance">-->
-      <!--<p>10000</p>-->
-    <!--</div>-->
+        <span class="donut-total income">{{totalIncome}}</span>
+      </div>
 
-    <donut-chart
-      :chartData="totalExpenseByCategories"
-      :width="300"
-      :height="300"
-    />
+      <div class="donut-holder">
+        <donut-chart
+          class="donut-block"
+          :chartData="totalExpenseByCategories"
+          :width="300"
+          :height="300"
+        />
 
-    <div>
-      <span>{{totalIncome}}</span>
-      <span>{{totalExpense}}</span>
+        <span class="donut-total expense">{{totalExpense}}</span>
+      </div>
     </div>
 
-
     <div class="history">
-      <div class="history-row"  v-for="record in allRecordOrdered" :key="record.id">
+      <div
+        class="history-row"
+        v-for="record in allRecordOrdered"
+        :key="record.id"
+        v-bind:class="{ income: record.type === 'income', expense: record.type === 'expense'}"
+      >
         <span>{{record.category}}</span>
 
-        <span v-bind:class="{ income: record.type === 'income', expense: record.type === 'expense'}">{{record.amount}}</span>
+        <div class="history-row-additional">
+          <span>{{record.amount}}</span>
+          <span>{{new Date(record.date).toDateString()}}</span>
+        </div>
       </div>
 
     </div>
@@ -98,7 +113,27 @@
         return {
           labels: Object.keys(totals),
           datasets: [{
-            backgroundColor: ["#f87979", "green", "cyan"],
+            backgroundColor: ["#4645f8", "#3c24f8", "#2e86f8"],
+            borderWidth: 0,
+            data: Object.values(totals)
+          }]
+        }
+      },
+      totalIncomeByCategories: function () {
+        const totals = {};
+
+        const allIncome = this.allRecord.filter(record => record.type === "income");
+        allIncome.forEach(record => {
+          const currentCategory = record.category;
+
+          if (currentCategory in totals) totals[currentCategory] += +record.amount;
+          else totals[currentCategory] = +record.amount;
+        });
+
+        return {
+          labels: Object.keys(totals),
+          datasets: [{
+            backgroundColor: ["#ff51a7", "#ff74bb", "#ff8fd9"],
             borderWidth: 0,
             data: Object.values(totals)
           }]
@@ -129,22 +164,47 @@
 
   .history {
     max-width: 500px;
-    margin: 0 auto;
-    background: #bebebe;
-    padding: 15px 20px
+    margin: 30px auto 0;
+    /*background: rgba(255,255,255,.1);*/
+    padding: 15px 20px;
   }
   .history-row {
     padding: 5px 0;
     display: flex;
     justify-content: space-between;
+    color: #fff;
+    font-size: 18px;
   }
   .history-row-value {
     margin: 0;
   }
+  .history-row-additional {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+  }
   .income {
-    color: greenyellow;
+    color: #ff51a7;
+    text-decoration: none;
   }
   .expense {
-    color: darkred;
+    color: #2e86f8;
+    text-decoration: none;
+  }
+
+  .charts-holder {
+    display: flex;
+    justify-content: space-around;
+  }
+  .donut-holder {
+    position: relative;
+  }
+  .donut-total {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
   }
 </style>
