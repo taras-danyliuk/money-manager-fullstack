@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const { graphiqlExpress, graphqlExpress } = require("apollo-server-express");
 const mongoose = require("mongoose");
 
-const port = 10101;
+const port = 3033;
 const app = express();
 
 // app modules
@@ -30,8 +30,9 @@ app.use("/graphiql", graphiqlExpress({
 
 
 // connecting to a mongodb database with name of db fullstack
-mongoose.connect("mongodb://localhost:27017/money-manager", () => {
-  console.log("connected to database successfully")
+mongoose.connect("mongodb://mongo:27017/money-manager", (error) => {
+  if (error) console.log("error connecting", error);
+  else console.log("connected to database successfully")
 });
 
 // starting the server

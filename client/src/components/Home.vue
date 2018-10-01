@@ -4,6 +4,12 @@
 
     <!--<h1 class="title">MoneySaver</h1>-->
 
+    <div>
+      <router-link to="/add-category">
+        <h4>Add category</h4>
+      </router-link>
+    </div>
+
     <div class="navigation">
       <router-link to="/plus">
         <h3 class="income">Income</h3>
